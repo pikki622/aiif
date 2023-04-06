@@ -29,7 +29,7 @@ class TBBacktesterRM(btr.BacktestingBaseRM):
         self.tp = tp
         self.wait = 0
         self.current_balance = self.initial_amount
-        self.net_wealths = list()
+        self.net_wealths = []
         for bar in range(self.env.lags, len(self.env.data)):
             self.wait = max(0, self.wait - 1)
             date, price = self.get_date_price(bar)

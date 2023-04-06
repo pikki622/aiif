@@ -36,7 +36,7 @@ class OandaTradingBot(tpqoa.tpqoa):
         self.tick_data = pd.DataFrame()
         self.min_length = (self.agent.learn_env.window +
                            self.agent.learn_env.lags)
-        self.pl = list()
+        self.pl = []
         self.verbose = verbose
     def _prepare_data(self):
         ''' Prepares the (lagged) features data.
