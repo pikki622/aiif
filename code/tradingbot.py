@@ -48,11 +48,11 @@ class TradingBot:
         self.gamma = 0.5
         self.batch_size = 128
         self.max_treward = 0
-        self.averages = list()
+        self.averages = []
         self.trewards = []
-        self.performances = list()
-        self.aperformances = list()
-        self.vperformances = list()
+        self.performances = []
+        self.aperformances = []
+        self.vperformances = []
         self.memory = deque(maxlen=2000)
         self.model = self._build_model(hidden_units,
                              learning_rate, dropout)
@@ -128,8 +128,10 @@ class TradingBot:
                     self.aperformances.append(
                         sum(self.performances[-25:]) / 25)
                     self.max_treward = max(self.max_treward, treward)
-                    templ = 'episode: {:2d}/{} | treward: {:4d} | '
-                    templ += 'perf: {:5.3f} | av: {:5.1f} | max: {:4d}'
+                    templ = (
+                        'episode: {:2d}/{} | treward: {:4d} | '
+                        + 'perf: {:5.3f} | av: {:5.1f} | max: {:4d}'
+                    )
                     print(templ.format(e, episodes, treward, perf,
                                        av, self.max_treward), end='\r')
                     break
@@ -152,7 +154,6 @@ class TradingBot:
             state = np.reshape(next_state, [1, self.valid_env.lags,
                                             self.valid_env.n_features])
             if done:
-                treward = _ + 1
                 perf = self.valid_env.performance
                 self.vperformances.append(perf)
                 if e % int(episodes / 6) == 0:
@@ -160,6 +161,7 @@ class TradingBot:
                     templ += '\nepisode: {:2d}/{} | VALIDATION | '
                     templ += 'treward: {:4d} | perf: {:5.3f} | eps: {:.2f}\n'
                     templ += 71 * '='
+                    treward = _ + 1
                     print(templ.format(e, episodes, treward,
                                        perf, self.epsilon))
                 break

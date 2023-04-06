@@ -52,9 +52,9 @@ class OandaEnv:
     def _get_data(self):
         ''' Method to retrieve data from Oanda.
         '''
-        self.fn = f'../../../data/'
-        self.fn += f'oanda_{self.symbol}_{self.start}_{self.end}_'  
-        self.fn += f'{self.granularity}_{self.price}.csv' 
+        self.fn = '../../../data/'
+        self.fn += f'oanda_{self.symbol}_{self.start}_{self.end}_'
+        self.fn += f'{self.granularity}_{self.price}.csv'
         self.fn = self.fn.replace(' ', '_').replace('-', '_').replace(':', '_')
         try:
             self.raw = pd.read_csv(self.fn, index_col=0, parse_dates=True)
@@ -101,8 +101,7 @@ class OandaEnv:
         self.accuracy = 0
         self.performance = 1
         self.bar = self.lags
-        state = self._get_state()
-        return state
+        return self._get_state()
 
     def step(self, action):
         ''' Method to step the environment forwards.

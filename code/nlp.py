@@ -74,10 +74,7 @@ def nltk_lemma(word):
         I.e. the base or dictionary version of it.
     '''
     lemma = wn.morphy(word)
-    if lemma is None:
-        return word
-    else:
-        return lemma
+    return word if lemma is None else lemma
     
 def tokenize(text, min_char=3, lemma=True, stop=True,
              numbers=False):
@@ -145,14 +142,14 @@ def generate_key_words(text, no):
                       ngram_range=(1, 2),
                       stop_words='english'
                      )
-    
+
         vec.fit_transform(tokens)
         wc = pd.DataFrame({'words': vec.get_feature_names(),
                        'tfidf': vec.idf_})
         words = wc.sort_values('tfidf', ascending=False)['words'].values
         words = [ a for a in words if not a.isnumeric()][:no]
     except:
-        words = list()
+        words = []
     return words
 
 
